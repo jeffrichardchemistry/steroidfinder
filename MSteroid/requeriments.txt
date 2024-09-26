@@ -1,4 +1,4 @@
-numba==0.58.1
+numpy==1.23.5
 altair==5.4.1
 attrs==24.2.0
 backports.zoneinfo==0.2.1
