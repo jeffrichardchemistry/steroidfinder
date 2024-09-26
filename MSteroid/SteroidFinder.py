@@ -12,7 +12,7 @@ except:
 from rdkit.Chem import AllChem, Draw
 from rdkit import Chem
 from rdkit.Chem import rdDepictor, Descriptors
-from rdkit.Chem.Draw import rdMolDraw2D
+#from rdkit.Chem.Draw import rdMolDraw2D
 import base64
 from PIL import Image
 import pickle
@@ -63,30 +63,61 @@ class BackEnd:
         # self._mlp  = pickle.load(open(mlp, 'rb'))
 
     # builder svg
-    def __moltosvg(self, mol, molSize = (300,300), kekulize = True):
+    # def __moltosvg(self, mol, molSize = (300,300), kekulize = True):
+    #     mol = Chem.MolFromSmiles(mol)
+    #     mc = Chem.Mol(mol.ToBinary())
+    #     if kekulize:
+    #         try:
+    #             Chem.Kekulize(mc)
+    #         except:
+    #             mc = Chem.Mol(mol.ToBinary())
+    #     if not mc.GetNumConformers():
+    #         rdDepictor.Compute2DCoords(mc)
+    #     drawer = rdMolDraw2D.MolDraw2DSVG(molSize[0],molSize[1])
+    #     drawer.DrawMolecule(mc)
+    #     drawer.FinishDrawing()
+    #     svg = drawer.GetDrawingText()
+    #     return svg.replace('svg:','')
+
+    # # render svg    
+    # def render_svg(self, smiles):
+    #     svg = BackEnd.__moltosvg(self, mol=smiles)
+    #     b64 = base64.b64encode(svg.encode('utf-8')).decode("utf-8")
+    #     html = r'<img src="data:image/svg+xml;base64,%s"/>' % b64
+    #     #st.write(html, unsafe_allow_html=True)
+    #     return(html)
+
+    def __moltoimg(self, mol, molSize=(300, 300), kekulize=True):
         mol = Chem.MolFromSmiles(mol)
         mc = Chem.Mol(mol.ToBinary())
+        
         if kekulize:
             try:
                 Chem.Kekulize(mc)
             except:
                 mc = Chem.Mol(mol.ToBinary())
+        
         if not mc.GetNumConformers():
             rdDepictor.Compute2DCoords(mc)
-        drawer = rdMolDraw2D.MolDraw2DSVG(molSize[0],molSize[1])
-        drawer.DrawMolecule(mc)
-        drawer.FinishDrawing()
-        svg = drawer.GetDrawingText()
-        return svg.replace('svg:','')
+        
+        # Gerar a imagem diretamente usando MolToImage
+        img = Draw.MolToImage(mc, size=molSize)
+        return img
 
-    # render svg    
+    # Renderizar a imagem como HTML com base64
     def render_svg(self, smiles):
-        svg = BackEnd.__moltosvg(self, mol=smiles)
-        b64 = base64.b64encode(svg.encode('utf-8')).decode("utf-8")
-        html = r'<img src="data:image/svg+xml;base64,%s"/>' % b64
-        #st.write(html, unsafe_allow_html=True)
-        return(html)
-
+        img = self.__moltoimg(smiles)
+        
+        # Converter a imagem PIL para base64
+        from io import BytesIO
+        buffered = BytesIO()
+        img.save(buffered, format="PNG")
+        img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+        
+        # Criar a tag HTML com a imagem codificada em base64
+        html = r'<img src="data:image/png;base64,%s"/>' % img_str
+        return html
+    
     ## match
     def match_FP(self, user_input, degree_freedom , df_fpx, threshold,  metric):
        
