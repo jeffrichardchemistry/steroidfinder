@@ -6,4 +6,4 @@ SpectraFP==1.2.4
 streamlit==1.27.0
 streamlit-ketcher==0.0.1
 xgboost==2.0.3
-
+opencv-python
