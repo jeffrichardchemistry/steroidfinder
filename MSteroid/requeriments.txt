@@ -1,3 +1,4 @@
+numba==0.58.1
 altair==5.4.1
 attrs==24.2.0
 backports.zoneinfo==0.2.1
@@ -20,8 +21,6 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 mdurl==0.1.2
 narwhals==1.8.3
-numba==0.58.1
-numpy==1.24.4
 packaging==23.2
 pandas==1.5.3
 Pillow==9.5.0
