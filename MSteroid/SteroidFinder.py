@@ -214,7 +214,7 @@ class BackEnd:
     def run_anabolic_model(self,descriptor_ms):
         
         result_rt = self._rf.predict([descriptor_ms])
-        result_xgb = self._xgb.predict([descriptor_ms])
+        #result_xgb = self._xgb.predict([descriptor_ms])
         return result_rt
 
 
