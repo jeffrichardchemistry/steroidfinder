@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
-from numba import prange, jit
+#from numba import prange, jit
 from numpy import sqrt
 
-@jit(parallel=False)
+#@jit(parallel=False)
 def calc_similarity(similarity_metric='tanimoto', alpha=1, beta=1,
                     base_train=np.array([[1,0,1,0,0], [1,0,1,1,1], [1,0,1,0,1]], dtype='uint32'),
                     base_test=np.array([[1,0,1,0,1]], dtype='uint32')):
@@ -14,9 +14,9 @@ def calc_similarity(similarity_metric='tanimoto', alpha=1, beta=1,
     result = []
     
     if similarity_metric == 'tanimoto':
-        for i_test in prange(l_base_test):
+        for i_test in range(l_base_test):
             get_sims = []
-            for i_train in prange(l_base_train):
+            for i_train in range(l_base_train):
                 A = base_test[i_test] 
                 B = base_train[i_train]
 
@@ -31,9 +31,9 @@ def calc_similarity(similarity_metric='tanimoto', alpha=1, beta=1,
         return result
     
     if similarity_metric == 'tversky':
-        for i_test in prange(l_base_test):
+        for i_test in range(l_base_test):
             get_sims = []
-            for i_train in prange(l_base_train):
+            for i_train in range(l_base_train):
                 A = base_test[i_test] 
                 B = base_train[i_train]
 
@@ -49,9 +49,9 @@ def calc_similarity(similarity_metric='tanimoto', alpha=1, beta=1,
         return result
     
     if similarity_metric == 'geometric':
-        for i_test in prange(l_base_test):
+        for i_test in range(l_base_test):
             get_sims = []
-            for i_train in prange(l_base_train):
+            for i_train in range(l_base_train):
                 A = base_test[i_test] 
                 B = base_train[i_train]
 
@@ -67,9 +67,9 @@ def calc_similarity(similarity_metric='tanimoto', alpha=1, beta=1,
         return result
     
     if similarity_metric == 'arithmetic':
-        for i_test in prange(l_base_test):
+        for i_test in range(l_base_test):
             get_sims = []
-            for i_train in prange(l_base_train):
+            for i_train in range(l_base_train):
                 A = base_test[i_test] 
                 B = base_train[i_train]
 
@@ -85,9 +85,9 @@ def calc_similarity(similarity_metric='tanimoto', alpha=1, beta=1,
         return result
     
     if similarity_metric == 'euclidian':
-        for i_test in prange(l_base_test):
+        for i_test in range(l_base_test):
             get_sims = []
-            for i_train in prange(l_base_train):
+            for i_train in range(l_base_train):
                 A = base_test[i_test] 
                 B = base_train[i_train]
 
@@ -103,9 +103,9 @@ def calc_similarity(similarity_metric='tanimoto', alpha=1, beta=1,
         return result
     
     if similarity_metric == 'manhattan':
-        for i_test in prange(l_base_test):
+        for i_test in range(l_base_test):
             get_sims = []
-            for i_train in prange(l_base_train):
+            for i_train in range(l_base_train):
                 A = base_test[i_test] 
                 B = base_train[i_train]
 
@@ -136,7 +136,7 @@ def similarity(base_train, base_test, similarity_metric='tanimoto', alpha=1, bet
     
     for n_matrix,one_matrix in enumerate(result):
         get = {}        
-        for i in prange(len(one_matrix)):
+        for i in range(len(one_matrix)):
             if one_matrix[i] >= threshold:
                 get[i] = one_matrix[i]
         get_all['Sample_{}'.format(n_matrix)] = get

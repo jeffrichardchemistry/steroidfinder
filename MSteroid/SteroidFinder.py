@@ -4,7 +4,11 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from SpectraFP import SpectraFP
-from fastsimilarity import getOnematch
+try:
+    from fastsimilarity import getOnematch
+except:
+    from .fastsimilarity import getOnematch
+    
 from rdkit.Chem import AllChem, Draw
 from rdkit import Chem
 from rdkit.Chem import rdDepictor, Descriptors
