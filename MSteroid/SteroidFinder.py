@@ -1,4 +1,4 @@
-from numba.core import descriptors
+#from numba.core import descriptors
 import rdkit
 import streamlit as st
 import pandas as pd
